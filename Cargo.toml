@@ -1,0 +1,10 @@
+[package]
+name = "rust_opengl"
+version = "0.1.0"
+authors = ["JibbityJobbity <37820565+JibbityJobbity@users.noreply.github.com>"]
+edition = "2018"
+
+[dependencies]
+glium = "0.24.0"
+image = "0.21.1"
+cgmath = "0.17.0"
