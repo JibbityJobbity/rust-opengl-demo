@@ -49,6 +49,8 @@ fn main() {
     let img = image::load_from_memory(include_bytes!("texture.jpg")).unwrap().to_rgba();
     let tex_dim: (u32, u32) = (img.width(), img.height());
     let tex = Texture2d::new(&display, RawImage2d::from_raw_rgba(img.into_vec(), tex_dim)).unwrap();
+    let tex_data = glium::uniforms::Sampler::new(&tex)
+            .magnify_filter(glium::uniforms::MagnifySamplerFilter::Linear);
     let uniforms = uniform! {
         texData: glium::uniforms::Sampler::new(&tex)
             .magnify_filter(glium::uniforms::MagnifySamplerFilter::Linear)
