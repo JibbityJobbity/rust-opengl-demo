@@ -1,4 +1,3 @@
-#![feature(duration_float)]
 extern crate glium;
 //extern crate glutin;
 use std::time::{Duration, SystemTime};
@@ -29,7 +28,7 @@ fn main() {
     let mut events_loop = glutin::EventsLoop::new();
     let window = glutin::WindowBuilder::new()
         .with_dimensions(dim)
-        .with_title("Hello world");
+        .with_title("OUTRUN");
     let context = glutin::ContextBuilder::new().with_vsync(false);
     let display = glium::Display::new(window, context, &events_loop).unwrap();
 
@@ -90,7 +89,7 @@ fn main() {
         perspective: perspective,
         model: grid_transform,
         backColour: back_colour,
-        time: SystemTime::now().duration_since(program_start_time).unwrap().as_float_secs() as f32,
+        time: SystemTime::now().duration_since(program_start_time).unwrap().as_micros() as f32 / 1000000.0 % 1.0,
     };
     let background_transform:[[f32; 4]; 4] = cgmath::Matrix4::from_translation([0.0, 0.0, -3.0].into()).into();
     let background_uniforms = uniform! {
@@ -121,11 +120,11 @@ fn main() {
             perspective: perspective,
             model: grid_transform,
             backColour: back_colour,
-            time: SystemTime::now().duration_since(program_start_time).unwrap().as_float_secs() as f32,
+            time: (SystemTime::now().duration_since(program_start_time).unwrap().as_micros() as f32 / 1000000.0)  % 1.0,
         };
         framecounter += 1;
-        if frame_render_time.duration_since(frame_thingy).unwrap() >= Duration::from_secs(5) {
-            println!("{}", (framecounter as f64) / 5.0);
+        if frame_render_time.duration_since(frame_thingy).unwrap() >= Duration::from_secs(1) {
+            println!("{}", (framecounter as f64) / 1.0);
             framecounter = 0;
             frame_thingy = SystemTime::now();
         }
