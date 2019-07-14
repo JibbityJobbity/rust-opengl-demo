@@ -24,7 +24,7 @@ implement_vertex!(BackgroundVertex, position, color);
 
 fn main() {
     let program_start_time = SystemTime::now();
-    let mut dim = glutin::dpi::LogicalSize::new(1024.0, 768.0);
+    let mut dim = glutin::dpi::LogicalSize::new(1600.0, 900.0);
     let mut events_loop = glutin::EventsLoop::new();
     let window = glutin::WindowBuilder::new()
         .with_dimensions(dim)
@@ -120,7 +120,7 @@ fn main() {
             perspective: perspective,
             model: grid_transform,
             backColour: back_colour,
-            time: (SystemTime::now().duration_since(program_start_time).unwrap().as_micros() as f32 / 1000000.0)  % 1.0,
+            time: (SystemTime::now().duration_since(program_start_time).unwrap().as_micros() as f32 / 500000.0)  % 1.0,
         };
         framecounter += 1;
         if frame_render_time.duration_since(frame_thingy).unwrap() >= Duration::from_secs(1) {

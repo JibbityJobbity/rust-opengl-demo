@@ -10,7 +10,7 @@ uniform float time;
 out vec2 aTexCoords;
 
 void main() {
-	aTexCoords = 200 * texcoords;
+	aTexCoords = 351 * texcoords;
 	aTexCoords.y += time;
 	gl_Position = perspective * model * vec4(position, 1.0);
 }
