@@ -30,7 +30,7 @@ fn main() {
     let window = glutin::WindowBuilder::new()
         .with_dimensions(dim)
         .with_title("Hello world");
-    let context = glutin::ContextBuilder::new();
+    let context = glutin::ContextBuilder::new().with_vsync(false);
     let display = glium::Display::new(window, context, &events_loop).unwrap();
 
     let grid_vertices = &[
@@ -102,7 +102,10 @@ fn main() {
     let background_shader = Program::from_source(&display, include_str!("background_shaders/vert.vert"), include_str!("background_shaders/frag.frag"), None).unwrap();
 
     let mut running = true;
+    let mut framecounter = 0;
+    let mut frame_thingy = SystemTime::now();
     while running {
+        let frame_render_time = SystemTime::now();
         events_loop.poll_events(|event| {
             //println!("{:?}", event);
             match event {
@@ -120,6 +123,12 @@ fn main() {
             backColour: back_colour,
             time: SystemTime::now().duration_since(program_start_time).unwrap().as_float_secs() as f32,
         };
+        framecounter += 1;
+        if frame_render_time.duration_since(frame_thingy).unwrap() >= Duration::from_secs(5) {
+            println!("{}", (framecounter as f64) / 5.0);
+            framecounter = 0;
+            frame_thingy = SystemTime::now();
+        }
         //frame.clear_color(0.01, 0.0, 0.01, 1.0);
         frame.draw(&background_vbo, &ebo, &background_shader, &background_uniforms, &Default::default()).unwrap();
         frame.draw(&grid_vbo, &ebo, &grid_shader, &grid_uniforms, &Default::default()).unwrap();
